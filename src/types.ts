@@ -1,7 +1,7 @@
 export type FilterType = {
   filterText: string;
   filterName: string;
-  filterValue: number;
+  filterValue: number | string;
   filterMin?: number;
   filterMax?: number;
   listCondition?: boolean;
@@ -15,14 +15,15 @@ export type FilterType = {
 
 export type TableType = {
   data: any;
-  year: string;
-  mass: number;
+  year: number | string;
+  mass: number | string;
+  excludedFields?: string[];
 }
 
 export type MessageType = {
   message: string;
   messageCondition: boolean;
-  buttonText?: string;
-  buttonAction?: (val?: number) => void;
+  buttonText?: string | boolean;
+  buttonAction: (val: number | string) => void;
   buttonActionValue?: number;
 }

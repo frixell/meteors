@@ -1,46 +1,41 @@
-import { TableWrapper, MeteorTableHeader, Meteor, MeteorName, MeteorClass, MeteorMass, MeteorLat, MeteorLng, MeteorTable } from '../../styles/styles';
+import useTable from '../../hooks/useTable';
+import { TableWrapper, TableHeader, TableRow, TableCell, MeteorNum, MeteorName, MeteorClass, MeteorMass, MeteorLat, MeteorLng, TableBody } from '../../styles/styles';
 import {TableType} from '../../types';
 
+const TableCellWidths = [20, 220, 180, 140, 110, 110];
 
-const Table = ({data, year, mass}: TableType) => {
+const Table = ({data, year, mass, excludedFields = []}: TableType) => {
   
-  const dataByYear = data && data.filter((d: any) => d.year && d.year.slice(0, 4) === year).sort((a: any, b: any) => {
-    if (Number(a.year) > Number(b.year)) return -1;
-    return 1;
-  });
+  const { dataByMassAndYear } = useTable({data, year, mass});
   
-  const dataByMassAndYear = dataByYear?.length > 0 && dataByYear.filter((d: any) => Number(d.mass) > Number(mass)).sort((a: any, b: any) => {
-    if (Number(a.year) > Number(b.year)) return -1;
-    return 1;
-  });
-  
-  if (!dataByMassAndYear || dataByMassAndYear?.length === 0) return null;
+  if (!dataByMassAndYear || dataByMassAndYear?.length === 0 || mass === '') return null;
     
   return (
     <TableWrapper>
-      <MeteorTableHeader>
-          <Meteor>
-            <MeteorName>Name</MeteorName>
-            <MeteorClass>Class</MeteorClass>
-            <MeteorMass>Mass</MeteorMass>
-            <MeteorLat>Lat</MeteorLat>
-            <MeteorLng>Lng</MeteorLng>
-          </Meteor>
-      </MeteorTableHeader>
-      <MeteorTable>
+      <TableHeader>
+          <TableRow>
+            <TableCell width={TableCellWidths[0]} />
+            {
+              Object.keys(dataByMassAndYear[0]).map((key: any, i: number) => {
+                return excludedFields.includes(key) ? null : <TableCell key={i} width={TableCellWidths[i + 1]}>{key}</TableCell>
+              })
+            }
+          </TableRow>
+      </TableHeader>
+      <TableBody>
         {dataByMassAndYear.map((meteor: any, i: number) => {
-          console.log({ meteor });
           return (
-          <Meteor key={i}>
+          <TableRow key={i}>
+            <MeteorNum>{i + 1}</MeteorNum>
             <MeteorName>{meteor.name}</MeteorName>
             <MeteorClass>{meteor.class}</MeteorClass>
             <MeteorMass>{meteor.mass}</MeteorMass>
             <MeteorLat>{meteor.lat}</MeteorLat>
             <MeteorLng>{meteor.lng}</MeteorLng>
-          </Meteor>
+          </TableRow>
           );
         })}
-      </MeteorTable>
+      </TableBody>
     </TableWrapper>
   );
 }

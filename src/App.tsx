@@ -30,7 +30,7 @@ const App = () => {
         filterValue={year}
         filterMin={yearMin}
         filterMax={yearMax}
-        listCondition={yearIsFocused && year && year.length < 4}
+        listCondition={yearIsFocused && !!year && String(year).length < 4}
         onFilterChange={onYearFilterChange}
         onFilterClick={onYearFilterClick}
         onFilterFocus={onYearFilterFocus}
@@ -41,7 +41,10 @@ const App = () => {
 
       <Message 
         message={yearMessage}
-        messageCondition={year && year.length === 4}
+        messageCondition={!!year && String(year)?.length === 4}
+        buttonText={defaultYear !== undefined && !!year && String(year).length === 4 && (!dataByYear || dataByYear?.length === 0) && `Try ${defaultYear}`}
+        buttonAction={setYear}
+        buttonActionValue={defaultYear}
       />
 
       <Filter 
@@ -50,18 +53,18 @@ const App = () => {
         filterValue={mass}
         filterMin={0}
         onFilterChange={onMassFilterChange}
-        filterCondition={dataByYear.length > 0 && year && year.length === 4}
+        filterCondition={dataByYear?.length > 0 && !!year && String(year).length === 4}
       />
       
       <Message 
         message={massMessage}
-        messageCondition={year.length === 4}
-        buttonText={defaultYear !== undefined && year && year.length === 4 && (!dataByMassAndYear || dataByMassAndYear?.length === 0) && `Try ${defaultYear}`}
+        messageCondition={mass !== '' && String(year)?.length === 4 && dataByYear?.length > 0}
+        buttonText={defaultYear !== undefined && !!year && String(year).length === 4 && (!dataByMassAndYear || dataByMassAndYear?.length === 0) && `Try ${defaultYear}`}
         buttonAction={setYear}
         buttonActionValue={defaultYear}
       />
       
-      <Table data={data} year={year} mass={mass} />
+      <Table data={data} year={year} mass={mass} excludedFields={['year']} />
       
     </Wrapper>
   );

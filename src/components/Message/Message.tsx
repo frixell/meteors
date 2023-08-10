@@ -5,7 +5,7 @@ const Message = ({ message, messageCondition, buttonText, buttonActionValue, but
   (
     <FilterMessageWrapper>
       <FilterText>{message}</FilterText>
-      {buttonText && <button onClick={() => buttonAction(buttonActionValue)}>{buttonText}</button>}
+      {buttonText && <button onClick={() => buttonAction(buttonActionValue || 0)}>{buttonText}</button>}
     </FilterMessageWrapper>
   )
   : 

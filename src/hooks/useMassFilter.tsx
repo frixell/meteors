@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
 const useMassFilter = ({ year, dataByYear }: any) => {    
-    const [mass, setMass] = useState(0);
+    const [mass, setMass] = useState<number | string>('');
     
     const onMassFilterChange = useCallback((e: any) => {
         const { value } = e.target;

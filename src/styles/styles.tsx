@@ -65,21 +65,32 @@ export const TableWrapper = styled('div')`
     border: 1px solid gray;
 `;
 
-export const MeteorTableHeader = styled('div')`
+export const TableHeader = styled('div')`
   display: flex;
   font-weight: bold;
   padding: 4px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid gray;
 `;
 
-export const MeteorTable = styled('div')`
+export const TableBody = styled('div')`
   display: flex;
   flex-direction: column;
 `;
 
-export const Meteor = styled('div')`
+export const TableRow = styled('div')`
   display: flex;
-  font-size: 14px;
+  font-size: 13px;
   color: #fff;
+  padding: 3px 0;
+`;
+
+export const TableCell = styled('div')<{width: number}>`
+  width: ${({ width }) => width}px;
+`;
+
+export const MeteorNum = styled('div')`
+  width: 20px;
 `;
 
 export const MeteorName = styled('div')`

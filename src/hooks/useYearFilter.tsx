@@ -1,24 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import useJSON from './useJSON';
 
 const useYearFilter = () => {
-    const { data, years, yearMax } = useJSON();
+    const { data, years } = useJSON();
     
-    const [year, setYear] = useState(yearMax || 0);
+    const [year, setYear] = useState<number | string>('');
     const [yearIsFocused, setYearIsFocused] = useState<boolean>(false);
-    
-    useEffect(() => {
-        setYear(yearMax);
-      }, [yearMax]);
     
     const [listYears, setListYears] = useState<string[]>([]);
     
     const onYearFilterChange = useCallback((e: any) => {
-        // console.log({ e });
-        // console.log(e.target.value);
         const { value } = e.target;
         const listYears = years.filter((year: string) => year && year.includes(value));
-        console.log({ listYears });
         
         const listYearsResult: string[] = [];
         listYears.forEach((year: string) => {
@@ -26,14 +19,12 @@ const useYearFilter = () => {
                 listYearsResult.push(year);
             }
         });
-        
-        console.log({ listYearsResult });
 
         setListYears(listYearsResult.sort((a: any, b: any) => {
             if (Number(a) > Number(b)) return -1;
             return 1;
         }));
-        setYear(value)
+        setYear(value);
     }, [years]);
     
     const onYearFilterFocus = useCallback((e: any) => {
@@ -45,7 +36,6 @@ const useYearFilter = () => {
     }, []);
     
     const onYearFilterClick = useCallback((e: any) => {
-        console.log({e});
         setYear(e.target.innerHTML);
         setYearIsFocused(false);
     }, []);

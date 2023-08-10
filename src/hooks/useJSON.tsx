@@ -6,7 +6,6 @@ const useJSON = () => {
     const getJSON = async(url: string) => {
         const api_call = await fetch(url);
         const data = await api_call.json();
-        console.log(data);
         const displayData = data.map(({name, mass, recclass, reclat, reclong, year}: any) => ({
             name,
             mass,
@@ -24,12 +23,8 @@ const useJSON = () => {
     const yearMin = years && years.reduce((min: number, year: number) => year < min ? year : min);
     const yearMax = years && years.reduce((max: number, year: number) => year > max ? year : max);
     
-    const getDefaultYearByMass = useCallback((mass: number) => {
+    const getDefaultYearByMass = useCallback((mass: number | string) => {
         const dataByMass = data && data.filter((m: any) => Number(m.mass) > Number(mass)).sort((a: any, b: any) => a.year > b.year ? -1 : 1)[0]?.year;
-        console.log({ data });
-        console.log({ dataByMass });
-        console.log('data.filter((m: any) => m.mass > mass).sort((a: any, b: any) => a.year > b.year ? -1 : 1)', 
-        data?.filter((m: any) => Number(m.mass) > Number(mass)).sort((a: any, b: any) => a.year > b.year ? -1 : 1));
         return dataByMass;
     }, [data]);
     
